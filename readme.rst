@@ -68,3 +68,14 @@ Acknowledgement
 
 The CodeIgniter team would like to thank EllisLab, all the
 contributors to the CodeIgniter project and you, the CodeIgniter user.
+
+#
+<VirtualHost *:80>
+	ServerName ciblog.com
+	DocumentRoot "c:/wamp64/www/ci_blog"
+	<Directory  "c:/wamp64/www/ci_blog">
+		Options +Indexes +Includes +FollowSymLinks +MultiViews
+		AllowOverride All
+    Require all granted
+	</Directory>
+</VirtualHost>
