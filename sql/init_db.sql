@@ -27,6 +27,7 @@ CREATE TABLE IF NOT EXISTS `book` (
   `status` tinyint(4) NOT NULL DEFAULT '0',
   `name` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
+  `publisher` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `publish_year` text,
   `del_flg` tinyint(4) NOT NULL DEFAULT '0',
@@ -71,6 +72,17 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
   `data` blob NOT NULL,
   KEY `ci_sessions_timestamp` (`timestamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table thuvien.search_keywords
+CREATE TABLE IF NOT EXISTS `search_keywords` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `keyword` varchar(255) CHARACTER SET utf8 DEFAULT NULL,
+  `count` int(11) DEFAULT NULL,
+  `create_date` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 
