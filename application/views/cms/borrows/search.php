@@ -27,12 +27,12 @@
                             <h3 class="card-title">Tra cứu</h3>
                         </div>
 
-                        <form action='' role="form" method="POST">
+                        <form action='' role="form" method="GET">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label>Tìm theo ngày:</label>
+                                            <label>Tìm theo ngày tạo:</label>
 
                                             <div class="input-group">
                                                 <div class="input-group-prepend">
@@ -40,7 +40,7 @@
                                                     <i class="far fa-calendar-alt"></i>
                                                 </span>
                                                 </div>
-                                                <input type="text" class="form-control float-right" id="search_range" name="search_range">
+                                                <input type="text" class="form-control float-right" id="search_range" name="search_range" value="<?=$search_range?>">
                                             </div>
                                         </div>
                                     </div>
@@ -48,7 +48,14 @@
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <label for="user_name">Tìm theo người mượn:</label>
-                                            <input type="text" class="form-control" id="user_name" name="user_name">
+                                            <input type="text" class="form-control" id="user_name" name="user_name" value="<?=$user_name?>">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label for="borrows_id">Tìm theo mã PMS:</label>
+                                            <input type="text" class="form-control" id="borrows_id" name="borrows_id" value="<?=$borrows_id?>">
                                         </div>
                                     </div>
                                 </div>
@@ -93,6 +100,25 @@
                     </thead>
                     <tbody>
                         <?php foreach($borrows as $borrow):?>
+                            <?php
+                                $bg = '';
+                                if ($borrow['status'] == 4)
+                                {
+                                    $bg = 'text-danger';
+                                }
+                                if ($borrow['status'] == 2)
+                                {
+                                    $bg = 'text-warning';
+                                }
+                                if ($borrow['status'] == 3)
+                                {
+                                    $bg = 'text-success';
+                                }
+                                if ($borrow['status'] == 1)
+                                {
+                                    $bg = 'text-primary';
+                                }
+                            ?>
                             <tr>
                                 <td><?=$borrow['id']?></td>
 
@@ -118,7 +144,7 @@
                                 <td></td>
                                 <?php endif?>
 
-                                <td>
+                                <td  class="<?=$bg?>"><b>
                                     <?php
                                         if ($borrow['status'] == 0)
                                         {
@@ -136,7 +162,12 @@
                                         {
                                             echo 'Đã trả sách';
                                         }
+                                        elseif ($borrow['status'] == 4)
+                                        {
+                                            echo 'Trả sách quá hạn';
+                                        }
                                     ?>
+                                    </b>
                                 </td>
 
                                 <td>

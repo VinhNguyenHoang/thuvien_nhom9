@@ -1,3 +1,6 @@
+<?php
+$required	= ' <span style="color:#FF0000"><i class="fa fa-star"></i></span>'; 
+?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -27,27 +30,27 @@
                 <?=form_open('', NULL, NULL)?>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Tên sách</label>
+                        <label>Tên sách <?=$required?></label>
                         <?=form_dropdown($attributes['borrows_books'], $attributes['borrows_books']['options'], $attributes['borrows_books']['selected'], "multiple='multiple'")?>
                         <?=form_error('book_ids[]', '<div class="error text-danger">', '</div>')?>
                     </div>
 
                     <div class="form-group">
-                        <label>Tên người mượn</label>
+                        <label>Tên người mượn <?=$required?></label>
                         <?=form_dropdown($attributes['user_id'], $attributes['user_id']['options'], $attributes['user_id']['selected'])?>
                         <?=form_error('user_id', '<div class="error text-danger">', '</div>')?>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ngày phải trả sách <?=$required?></label>
+                        <?=form_input($attributes['return_date'])?>
+                        <?=form_error('return_date', '<div class="error text-danger">', '</div>')?>
                     </div>
 
                     <div class="form-group">
                         <label>Ngày nhận sách</label>
                         <?=form_input($attributes['taken_date'])?>
                         <?=form_error('taken_date', '<div class="error text-danger">', '</div>')?>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Ngày phải trả sách</label>
-                        <?=form_input($attributes['return_date'])?>
-                        <?=form_error('return_date', '<div class="error text-danger">', '</div>')?>
                     </div>
 
                     <div class="form-group">
@@ -79,7 +82,8 @@
 <script>
     $(function(){
         $('#book_ids').select2({
-            placeholder: 'Chọn sách'
+            placeholder: 'Chọn sách',
+            theme: "classic"
         });
 
         $('[data-mask]').inputmask();

@@ -159,7 +159,7 @@ class Cms_model extends CI_model {
         return $query->row_array();
     }
 
-    public function get_all_borrows($where = array(), $order_by = '', $limit = NULL, $offset = 0, $count = FALSE)
+    public function get_all_borrows($where = array(), $having = array(), $order_by = '', $limit = NULL, $offset = 0, $count = FALSE)
     {
         $this->db->distinct();
         $this->db->select('borrows.*, user.name as user_name, user.id as user_id');
@@ -167,6 +167,12 @@ class Cms_model extends CI_model {
         $this->db->join('borrows_book_user', 'borrows_book_user.borrows_id = borrows.id', 'left');
         $this->db->join('user', 'borrows_book_user.user_id = user.id', 'left');
         $this->db->where($where);
+
+        if ($having)
+        {
+            $this->db->having($having);
+        }
+
         $this->db->order_by($order_by);
         if ($limit != NULL)
         {
@@ -283,6 +289,35 @@ class Cms_model extends CI_model {
         $this->db->update('borrows_book_user', $data);
         
         return $this->db->affected_rows();
+    }
+
+    public function get_latest_search_keyword($where = array())
+    {
+        $this->db->select('*');
+        $this->db->from('search_keywords');
+        $this->db->where($where);
+        $this->db->order_by('count DESC');
+        $this->db->limit(5, 0);
+
+        $result = $this->db->get();
+
+        return $result->result_array();
+    }
+
+    public function get_recent_borrowed_books($where = array())
+    {
+        $this->db->select('book.*, COUNT(borrows_book_user.book_id) as borrow_count');
+        $this->db->from('book');
+        $this->db->join('borrows_book_user', 'borrows_book_user.book_id = book.id', 'left');
+        $this->db->where($where);
+
+        $this->db->group_by('borrows_book_user.book_id');
+        $this->db->order_by('borrow_count DESC');
+        $this->db->limit(5, 0);
+
+        $result = $this->db->get();
+
+        return $result->result_array();
     }
 }
 

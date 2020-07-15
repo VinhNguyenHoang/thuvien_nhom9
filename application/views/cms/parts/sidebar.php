@@ -93,6 +93,13 @@
               </li>
             </ul>
           </li>
+
+          <li class="nav-item">
+            <a href="<?=site_url('cms/statistic/index')?>" class="nav-link <?=($slug_1 == 'statistic' && $slug_2 == 'index')?'active':''?>">
+              <i class="far fa-file nav-icon"></i>
+              <p>Thống kê</p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

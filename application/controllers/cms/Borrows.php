@@ -20,13 +20,58 @@ class Borrows extends MY_Controller {
 		}
     }
 
+    private function _update_status_all_borrows()
+    {
+        $in_time = date('Y-m-d H:i:s', time());
+        $current_date = DateTime::createFromFormat('Y-m-d H:i:s', $in_time)->format('Y-m-d');
+
+        $all_borrows = $this->cms_model->get_all_borrows(array('borrows.del_flg' => 0));
+        foreach($all_borrows as $key => $borrows)
+        {
+            $return_date = ($all_borrows[$key]['return_date'] == '0000-00-00 00:00:00')?'':DateTime::createFromFormat('Y-m-d H:i:s', $borrows['return_date'])->format('Y-m-d');
+            $taken_date = ($all_borrows[$key]['taken_date'] == '0000-00-00 00:00:00')?'':DateTime::createFromFormat('Y-m-d H:i:s', $borrows['taken_date'])->format('Y-m-d');
+            $brought_date = ($all_borrows[$key]['brought_date'] == '0000-00-00 00:00:00')?'':DateTime::createFromFormat('Y-m-d H:i:s', $borrows['brought_date'])->format('Y-m-d');
+
+            if ($taken_date != '' && $brought_date == '' && $current_date < $return_date)
+            {
+                $status = 1;
+            }
+            elseif ($taken_date != '' && $brought_date != '' && $brought_date > $return_date)
+            {
+                $status = 4;
+            }
+            elseif ($taken_date != '' && $brought_date != '' && $brought_date <= $return_date)
+            {
+                $status = 3;
+            }
+            elseif ($taken_date == '' && $brought_date == '')
+            {
+                $status = 0;
+            }
+            elseif ($taken_date != '' && $brought_date == '' && $current_date > $return_date)
+            {
+                $status = 2;
+            }
+
+            if ($all_borrows[$key]['status'] != $status)
+            {
+                $borrows = array(
+                    'status' => $status
+                );
+                $this->cms_model->update_borrows($borrows, array('borrows.id' => $all_borrows[$key]['id']));
+            }
+        }
+    }
+
     public function search()
 	{
+        $this->_update_status_all_borrows();
+
         $this->data['title'] = 'Tra cứu PMS';
 
-        if ($this->input->post('search_range'))
+        if ($this->input->get('search_range'))
         {
-            $date_range = $this->input->post('search_range');
+            $date_range = $this->input->get('search_range');
             $date_range = explode('-', $date_range);
             $from_date = DateTime::createFromFormat('d/m/Y', trim($date_range[0]));
             $this->data['from_date'] = $from_date->format('Y-m-d');
@@ -38,19 +83,34 @@ class Borrows extends MY_Controller {
         {
             $this->data['from_date'] = '';
             $this->data['to_date'] = '';
+            
         }
 
-        if ($this->input->post('user_name'))
+        if ($this->input->get('user_name'))
         {
-            $this->data['user_name'] = $this->input->post('user_name');
+            $this->data['user_name'] = $this->input->get('user_name');
         }
         else
         {
             $this->data['user_name'] = '';
         }
 
+        if ($this->input->get('borrows_id'))
+        {
+            $this->data['borrows_id'] = $this->input->get('borrows_id');
+        }
+        else
+        {
+            $this->data['borrows_id'] = '';
+        }
+
         $order_by = 'borrows.return_date DESC, borrows.create_date DESC';
         $where = array();
+        $having = array();
+        if ($this->data['borrows_id'] != '')
+        {
+            $where["borrows.id"] = $this->data['borrows_id'];
+        }
         if ($this->data['from_date'] != '')
         {
             $where["borrows.create_date >="] = $this->data['from_date'];
@@ -61,11 +121,25 @@ class Borrows extends MY_Controller {
         }
         if ($this->data['user_name'] != '')
         {
-            $where["borrows.user_name LIKE '%" . $this->data['user_name'] . "%'"] = NULL;
+            $having["user_name LIKE '%" . $this->data['user_name'] . "%'"] = NULL;
         }
         $where['borrows.del_flg'] = 0;
-        $this->data['borrows'] = $this->cms_model->get_all_borrows($where, $order_by, '', 0, FALSE);
-        $this->data['count'] = $this->cms_model->get_all_borrows($where, $order_by, '', 0, TRUE);
+        $this->data['borrows'] = $this->cms_model->get_all_borrows($where, $having, $order_by, '', 0, FALSE);
+        $this->data['count'] = $this->cms_model->get_all_borrows($where, $having, $order_by, '', 0, TRUE);
+
+        $this->data['current_time'] = DateTime::createFromFormat('Y-m-d H:i:s', date('Y-m-d H:i:s', time()))->format('Y-m-d');
+        if ($this->data['from_date'] != '' && $this->data['to_date'] != '')
+        {
+            $this->data['search_range'] = DateTime::createFromFormat('Y-m-d', $this->data['from_date'])->format('d/m/Y') . ' - ' . DateTime::createFromFormat('Y-m-d', $this->data['to_date'])->format('d/m/Y');
+        }
+        else
+        {
+            $this->data['search_range'] = '';
+        }
+        // echo '<pre>';
+        // print_r($this->data['search_range']);
+        // echo '</pre>';
+        // exit();
 
         $this->load->view('cms/parts/header', $this->data);
         $this->load->view('cms/borrows/search', $this->data);
@@ -133,14 +207,41 @@ class Borrows extends MY_Controller {
             $taken_date = DateTime::createFromFormat('d/m/Y', set_value('taken_date'));
             $return_date = DateTime::createFromFormat('d/m/Y', set_value('return_date'));
             $brought_date = DateTime::createFromFormat('d/m/Y', set_value('brought_date'));
+            $current_date = DateTime::createFromFormat('Y-m-d H:i:s', $in_time)->format('Y-m-d');
+
+            $taken_date_value = $taken_date?$taken_date->format('Y-m-d'):'';
+            $return_date_value = $return_date?$return_date->format('Y-m-d'):'';
+            $brought_date_value = $brought_date?$brought_date->format('Y-m-d'):'';
+
+            $status = 0;
+            if ($taken_date_value != '' && $brought_date_value == '' && $current_date < $return_date_value)
+            {
+                $status = 1;
+            }
+            elseif ($taken_date_value != '' && $brought_date_value != '' && $brought_date_value > $return_date_value)
+            {
+                $status = 4;
+            }
+            elseif ($taken_date_value != '' && $brought_date_value != '' && $brought_date_value <= $return_date_value)
+            {
+                $status = 3;
+            }
+            elseif ($taken_date_value == '' && $brought_date_value == '')
+            {
+                $status = 0;
+            }
+            elseif ($taken_date_value != '' && $brought_date_value == '' && $current_date > $return_date_value)
+            {
+                $status = 2;
+            }
 
             $borrows_data = array(
                 'create_date'   => $in_time,
-                'taken_date'    => ($taken_date?$taken_date->format('Y-m-d'):''),
-                'return_date'   => ($return_date?$return_date->format('Y-m-d'):''),
-                'brought_date'   => ($brought_date?$brought_date->format('Y-m-d'):''),
+                'taken_date'    => $taken_date_value,
+                'return_date'   => $return_date_value,
+                'brought_date'   => $brought_date_value,
                 'del_flg'       => 0,
-                'status'        => set_value('status')
+                'status'        => $status
             );
 
             $book_ids = $this->input->post('book_ids[]');
@@ -366,6 +467,13 @@ class Borrows extends MY_Controller {
                 'label'         => 'Đã trả sách',
                 'value'         => '3',
                 'checked'       => (set_value('status', $this->data['borrows']['status']) == 3)?TRUE:FALSE,
+            ),
+            array(
+                'name'          => 'status',
+                'id'            => 'status',
+                'label'         => 'Trả sách quá hạn',
+                'value'         => '4',
+                'checked'       => (set_value('status', $this->data['borrows']['status']) == 4)?TRUE:FALSE,
             ),
         );
 

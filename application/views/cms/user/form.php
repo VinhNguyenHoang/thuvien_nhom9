@@ -1,3 +1,6 @@
+<?php
+$required	= ' <span style="color:#FF0000"><i class="fa fa-star"></i></span>'; 
+?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -27,25 +30,25 @@
                 <?=form_open('', NULL, NULL)?>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Họ tên</label>
+                        <label>Họ tên <?=$required?></label>
                         <?=form_input($attributes['name'])?>
                         <?=form_error('name', '<div class="error text-danger">', '</div>')?>
                     </div>
                     
                     <div class="form-group">
-                        <label>Tên đăng nhập</label>
+                        <label>Tên đăng nhập <?=$required?></label>
                         <?=form_input($attributes['username'])?>
                         <?=form_error('username', '<div class="error text-danger">', '</div>')?>
                     </div>
 
                     <div class="form-group">
-                        <label>Mật khẩu</label>
+                        <label>Mật khẩu <?=$required?></label>
                         <?=form_input($attributes['password'])?>
                         <?=form_error('password', '<div class="error text-danger">', '</div>')?>
                     </div>
 
                     <div class="form-group">
-                        <label>Ngày sinh</label>
+                        <label>Ngày sinh <?=$required?></label>
                         <?=form_input($attributes['birthday'])?>
                         <?=form_error('birthday', '<div class="error text-danger">', '</div>')?>
                     </div>

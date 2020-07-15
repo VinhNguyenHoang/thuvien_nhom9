@@ -1,3 +1,6 @@
+<?php
+$required	= ' <span style="color:#FF0000"><i class="fa fa-star"></i></span>'; 
+?>
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <div class="content-header">
@@ -27,13 +30,19 @@
                 <?=form_open('', NULL, NULL)?>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Tên sách</label>
+                        <label>Tên sách <?=$required?></label>
                         <?=form_input($attributes['name'])?>
                         <?=form_error('name', '<div class="error text-danger">', '</div>')?>
                     </div>
 
                     <div class="form-group">
-                        <label>Tên tác giả</label>
+                        <label>Nhà xuất bản <?=$required?></label>
+                        <?=form_input($attributes['publisher'])?>
+                        <?=form_error('publisher', '<div class="error text-danger">', '</div>')?>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tên tác giả <?=$required?></label>
                         <?=form_input($attributes['author'])?>
                         <?=form_error('author', '<div class="error text-danger">', '</div>')?>
                     </div>

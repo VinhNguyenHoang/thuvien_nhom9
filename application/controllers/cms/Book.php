@@ -76,6 +76,7 @@ class Book extends MY_Controller {
             $this->data['book']['id']           = '';
             $this->data['book']['name']         = '';
             $this->data['book']['author']       = '';
+            $this->data['book']['publisher']    = '';
             $this->data['book']['description']  = '';
             $this->data['book']['create_date']  = '';
             $this->data['book']['update_date']  = '';
@@ -87,6 +88,7 @@ class Book extends MY_Controller {
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules('name', 'Tên sách', 'required|trim');
+        $this->form_validation->set_rules('publisher', 'Nhà xuất bản', 'required|trim');
         $this->form_validation->set_rules('author', 'Tên tác giả', 'required|trim');
         $this->form_validation->set_rules('description', 'Mô tả sách', 'trim');
         $this->form_validation->set_rules('publish_year', 'Năm xuất bản', 'trim|integer|callback_validate_publish_year');
@@ -101,6 +103,7 @@ class Book extends MY_Controller {
             $data = array(
                 'name'      => set_value('name'),
                 'author'    => set_value('author'),
+                'publisher' => set_value('publisher'),
                 'description'    => set_value('description'),
                 'status'    => set_value('status'),
                 'update_date'   => $in_time,
@@ -159,6 +162,13 @@ class Book extends MY_Controller {
             'class' => 'form-control'
         );
 
+        $publisher = array(
+            'name'  => 'publisher',
+            'id'    => 'publisher',
+            'value' => set_value('publisher', $this->data['book']['publisher']),
+            'class' => 'form-control'
+        );
+
         $author = array(
             'name'  => 'author',
             'id'    => 'author',
@@ -201,6 +211,7 @@ class Book extends MY_Controller {
         $attributes = array(
             'hidden'    => $hidden,
             'name'      => $name,
+            'publisher' => $publisher,
             'author'    => $author,
             'status'    => $status,
             'description'   => $description,

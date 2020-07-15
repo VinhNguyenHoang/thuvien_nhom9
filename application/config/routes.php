@@ -68,3 +68,5 @@ $route['cms/user/form/:num/'] = 'cms/cms/user/form/$1/';
 $route['cms/borrows/search/'] = 'cms/cms/borrows/search/';
 $route['cms/borrows/form/'] = 'cms/cms/borrows/form/';
 $route['cms/borrows/form/:num/'] = 'cms/cms/borrows/form/$1/';
+
+$route['cms/statistic/'] = 'cms/cms/statistic/index';
