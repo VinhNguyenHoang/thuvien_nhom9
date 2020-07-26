@@ -25,43 +25,19 @@ $required	= ' <span style="color:#FF0000"><i class="fa fa-star"></i></span>';
         <div class="content-fluid">
             <div class="card card-default">
                 <div class="card-header">
-                    <h3 class="card-title">Thông tin sách</h3>
+                    <h3 class="card-title">Thông tin đầu sách của <?=$tuasach['ten']?></h3>
                 </div>
                 <?=form_open('', NULL, NULL)?>
                 <div class="card-body">
                     <div class="form-group">
-                        <label>Tên sách <?=$required?></label>
-                        <?=form_input($attributes['name'])?>
-                        <?=form_error('name', '<div class="error text-danger">', '</div>')?>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Nhà xuất bản <?=$required?></label>
-                        <?=form_input($attributes['publisher'])?>
-                        <?=form_error('publisher', '<div class="error text-danger">', '</div>')?>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Tên tác giả <?=$required?></label>
-                        <?=form_input($attributes['author'])?>
-                        <?=form_error('author', '<div class="error text-danger">', '</div>')?>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Năm xuất bản</label>
-                        <?=form_input($attributes['publish_year'])?>
-                        <?=form_error('publish_year', '<div class="error text-danger">', '</div>')?>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Mô tả sách</label>
-                        <?=form_textarea($attributes['description'])?>
-                        <?=form_error('description', '<div class="error text-danger">', '</div>')?>
+                        <label>Ngôn ngữ <?=$required?></label>
+                        <?=form_input($attributes['ngonngu'])?>
+                        <?=form_error('ngonngu', '<div class="error text-danger">', '</div>')?>
                     </div>
 
                     <div class="form-group icheck">
-                        <label>Tình trạng</label>
-                        <?php foreach($attributes['status'] as $stt):?>
+                        <label>Tình trạng đầu sách</label>
+                        <?php foreach($attributes['trangthai'] as $stt):?>
                             <div class="form-check">
                                 <?=form_radio($stt)?>
                                 <label class="form-check-label"><?=$stt['label']?></label>

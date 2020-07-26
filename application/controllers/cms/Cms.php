@@ -41,21 +41,15 @@ class Cms extends MY_Controller {
 		if ($this->form_validation->run())
 		{
 			$admin = $this->cms_model->get_admin_by_username_password($username, $password);
-			$user_admin = $this->cms_model->get_user_admin_by_username_password($username, $password);
 
 			if ($admin)
 			{
 				$this->login_admin($admin);
 				redirect('cms', 'location');
 			}
-			elseif ($user_admin)
-			{
-				$this->login_admin($user_admin);
-				redirect('cms', 'location');
-			}
 			else
 			{
-				$this->data['error_msg'] = 'Incorrect username or password.';
+				$this->data['error_msg'] = 'Tên đăng nhập hoặc mật khẩu không đúng.';
 				$this->load->view('cms/parts/header', $this->data);
 				$this->load->view('cms/index/login', $this->data);
 				$this->load->view('cms/parts/footer', $this->data);

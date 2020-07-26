@@ -57,9 +57,9 @@ $route['cms'] = 'cms/cms/index';
 $route['cms/login'] = 'cms/cms/login';
 $route['cms/logout'] = 'cms/cms/logout';
 
-$route['cms/book/search/'] = 'cms/cms/book/search/';
-$route['cms/book/form/'] = 'cms/cms/book/form/';
-$route['cms/book/form/:num/'] = 'cms/cms/book/form/$1/';
+$route['cms/tuasach/tracuu/'] = 'cms/cms/tuasach/tracuu/';
+$route['cms/tuasach/chitiet_tuasach/'] = 'cms/cms/tuasach/chitiet_tuasach/';
+$route['cms/tuasach/chitiet_tuasach/:num/'] = 'cms/cms/tuasach/chitiet_tuasach/$1/';
 
 $route['cms/user/search/'] = 'cms/cms/user/search/';
 $route['cms/user/form/'] = 'cms/cms/user/form/';

@@ -21,7 +21,7 @@
       <nav class="mt-2">
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
 
-          <li class="nav-item has-treeview <?=($slug_1 == 'book')?'menu-open':''?>">
+          <li class="nav-item has-treeview <?=($slug_1 == 'tuasach')?'menu-open':''?>">
             <a class="nav-link">
               <i class="nav-icon fas fa-copy"></i>
               <p>
@@ -31,22 +31,22 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?=site_url('cms/book/search')?>" class="nav-link <?=($slug_1 == 'book' && $slug_2 == 'search')?'active':''?>">
+                <a href="<?=site_url('cms/tuasach/tracuu')?>" class="nav-link <?=($slug_1 == 'tuasach' && $slug_2 == 'tracuu')?'active':''?>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Tra cứu sách</p>
+                  <p>Tra cứu tựa sách</p>
                 </a>
               </li>
 
               <li class="nav-item">
-                <a href="<?=site_url('cms/book/form')?>" class="nav-link <?=($slug_1 == 'book' && $slug_2 == 'form')?'active':''?>">
+                <a href="<?=site_url('cms/tuasach/chitiet_tuasach')?>" class="nav-link <?=($slug_1 == 'tuasach' && $slug_2 == 'chitiet_tuasach')?'active':''?>">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Tạo mới sách</p>
+                  <p>Tạo mới tựa sách</p>
                 </a>
               </li>
             </ul>
           </li>
 
-          <li class="nav-item has-treeview <?=($slug_1 == 'user')?'menu-open':''?>">
+          <li class="nav-item has-treeview <?=($slug_1 == 'thanhvien')?'menu-open':''?>">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fas fa-users"></i>
               <p>
@@ -56,13 +56,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?=site_url('cms/user/search')?>" class="nav-link <?=($slug_1 == 'user' && $slug_2 == 'search')?'active':''?>">
+                <a href="<?=site_url('cms/thanhvien/tracuu')?>" class="nav-link <?=($slug_1 == 'thanhvien' && $slug_2 == 'tracuu')?'active':''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tra cứu thành viên</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?=site_url('cms/user/form')?>" class="nav-link <?=($slug_1 == 'user' && $slug_2 == 'form')?'active':''?>">
+                <a href="<?=site_url('cms/thanhvien/chitiet_thanhvien')?>" class="nav-link <?=($slug_1 == 'thanhvien' && $slug_2 == 'chitiet_thanhvien')?'active':''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tạo mới thành viên</p>
                 </a>
@@ -70,7 +70,7 @@
             </ul>
           </li>
           
-          <li class="nav-item has-treeview <?=($slug_1 == 'borrows')?'menu-open':''?>">
+          <li class="nav-item has-treeview <?=($slug_1 == 'phieumuonsach')?'menu-open':''?>">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
@@ -80,13 +80,13 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="<?=site_url('cms/borrows/search')?>" class="nav-link <?=($slug_1 == 'borrows' && $slug_2 == 'search')?'active':''?>">
+                <a href="<?=site_url('cms/phieumuonsach/tracuu')?>" class="nav-link <?=($slug_1 == 'phieumuonsach' && $slug_2 == 'tracuu')?'active':''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tra cứu PMS</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="<?=site_url('cms/borrows/form')?>" class="nav-link <?=($slug_1 == 'borrows' && $slug_2 == 'form')?'active':''?>">
+                <a href="<?=site_url('cms/phieumuonsach/chitiet_pms')?>" class="nav-link <?=($slug_1 == 'phieumuonsach' && $slug_2 == 'chitiet_pms')?'active':''?>">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Tạo mới PMS</p>
                 </a>

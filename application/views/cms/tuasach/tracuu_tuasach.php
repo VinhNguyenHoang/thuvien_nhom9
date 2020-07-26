@@ -32,14 +32,14 @@
                                 <div class="row">
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="book_name">Tên sách</label>
-                                            <input type="text" class="form-control" id="book_name" name="book_name">
+                                            <label for="ten_tuasach">Tên sách</label>
+                                            <input type="text" class="form-control" id="ten_tuasach" name="ten_tuasach">
                                         </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <label for="author_name">Tên tác giả</label>
-                                            <input type="text" class="form-control" id="author_name" name="author_name">
+                                            <label for="ten_tacgia">Tên tác giả</label>
+                                            <input type="text" class="form-control" id="ten_tacgia" name="ten_tacgia">
                                         </div>
                                     </div>
                                 </div>
@@ -67,39 +67,36 @@
                     <!-- pagination -->
                 </div>
             </div>
-            <?php if(isset($books) && $books):?>
+            <?php if(isset($tuasach) && $tuasach):?>
             <div class="card-body p-0">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
-                            <th style="width: 140px">Mã sách</td>
-                            <th>Tên sách</th>
-                            <th>Tác giả</th>
-                            <th>Năm xuất bản</th>
-                            <th style="width: 200px">Ngày tạo</th>
-                            <th style="width: 200px">Ngày chỉnh sửa</th>
+                            <th style="width: 140px">Mã tựa sách</td>
+                            <th>Tên tựa sách</th>
+                            <th>Tên tác giả</th>
                             <th>Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach($books as $book):?>
+                        <?php foreach($tuasach as $ts):?>
                             <tr>
-                                <td><?=$book['id']?></td>
-                                <td><a href="<?=site_url('cms/book/form/'.$book['id'])?>"><?=$book['name']?></a></td>
-                                <td><?=$book['author']?></td>
-                                <td><?=$book['publish_year']?></td>
-                                <td><?=$book['create_date']?></td>
-                                <td><?=$book['update_date']?></td>
+                                <td><?=$ts['id']?></td>
+                                <td><a href="<?=site_url('cms/tuasach/chitiet_tuasach/'.$ts['id'])?>"><?=$ts['ten']?></a></td>
+                                <td><?=$ts['tacgia']?></td>
                                 <td>
                                     <div class="row">
                                         <div class="col-md-3">
-                                            <a href="<?=site_url('cms/book/form/'.$book['id'])?>" type="button" class="btn btn-block btn-success btn-sm">Edit</a>
+                                            <a href="<?=site_url('cms/dausach/tracuu/'.$ts['id'])?>" type="button" class="btn btn-block btn-primary btn-sm">Quản lý đầu sách</a>
                                         </div>
                                         <div class="col-md-3">
-                                        <form action="<?=site_url('cms/book/delete_book')?>" method="post" id="form_delete_book_<?=$book['id']?>">
-                                            <input onclick="delete_data(this, <?=$book['id']?>)" name="delete" value="Delete" type="button" class="btn btn-danger btn-sm" data-loading-text="Đang xử lý...">
-                                            <input type="hidden" name="id" value="<?=$book['id']?>">
-                                            <input type="hidden" name="url_back" value="<?=site_url('cms/book/search?book_name='.$book_name.'&author_name='.$author_name.'&offset='.$offset)?>">
+                                            <a href="<?=site_url('cms/tuasach/chitiet_tuasach/'.$ts['id'])?>" type="button" class="btn btn-block btn-success btn-sm">Chỉnh sửa</a>
+                                        </div>
+                                        <div class="col-md-3">
+                                        <form action="<?=site_url('cms/tuasach/delete_book')?>" method="post" id="form_delete_book_<?=$ts['id']?>">
+                                            <input onclick="delete_data(this, <?=$ts['id']?>)" name="delete" value="Xóa" type="button" class="btn btn-danger btn-sm" data-loading-text="Đang xử lý...">
+                                            <input type="hidden" name="id" value="<?=$ts['id']?>">
+                                            <input type="hidden" name="url_back" value="<?=site_url('cms/book/search?ten_tuasach='.$ten_tuasach.'&ten_tacgia='.$ten_tacgia)?>">
                                         </form>
                                         </div>
                                     </div>
