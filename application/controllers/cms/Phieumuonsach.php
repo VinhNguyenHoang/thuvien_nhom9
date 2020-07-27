@@ -25,7 +25,7 @@ class Phieumuonsach extends MY_Controller {
         $in_time = date('Y-m-d H:i:s', time());
         $current_date = DateTime::createFromFormat('Y-m-d H:i:s', $in_time)->format('Y-m-d');
 
-        $all_borrows = $this->cms_model->get_all_borrows(array('borrows.del_flg' => 0));
+        $all_borrows = $this->cms_model->lat_tat_ca_phieu_muon_sach();
         foreach($all_borrows as $key => $borrows)
         {
             $ngayphaitra = ($all_borrows[$key]['ngayphaitra'] == '0000-00-00 00:00:00')?'':DateTime::createFromFormat('Y-m-d H:i:s', $borrows['ngayphaitra'])->format('Y-m-d');
@@ -166,13 +166,13 @@ class Phieumuonsach extends MY_Controller {
                 return;
             }
 
-            $chitiet_pms = $this->cms_model->lay_chitiet_pms(array('chitiet_pms.borrows_id' => $this->data['id']));
+            $chitiet_pms = $this->cms_model->lay_chitiet_pms(array('chitiet_pms.mapms' => $this->data['id']));
             if ($chitiet_pms)
             {
                 $this->data['phieumuonsach']['ma_thanhvien'] = $chitiet_pms[0]['mathanhvien'];
                 foreach($chitiet_pms as $item)
                 {
-                    $this->data['book_ids'][] = $item['book_id'];
+                    $this->data['sach_duoc_chon'][] = $item['macuonsach'];
                 }
             }
         }
@@ -186,17 +186,19 @@ class Phieumuonsach extends MY_Controller {
             $this->data['phieumuonsach']['ma_thanhvien'] = NULL;
             $this->data['phieumuonsach']['tinhtrang'] = 0;
 
-            $this->data['book_ids'] = array();
+            $this->data['sach_duoc_chon'] = array();
         }
 
         $this->data['title'] = 'Chi tiết phiếu mượn sách';
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('book_ids[]', 'Mã cuốn sách', 'trim|required');
+        $this->form_validation->set_rules('sach_duoc_chon[]', 'Mã cuốn sách', 'trim|required');
         $this->form_validation->set_rules('ma_thanhvien', 'Mã thành viên', 'trim|integer|required');
         $this->form_validation->set_rules('ngaynhansach', 'Ngày nhận sách', '');
         $this->form_validation->set_rules('ngayphaitra', 'Ngày phải trả', 'required');
         $this->form_validation->set_rules('ngaydemtra', 'Ngày đem trả', '');
+
+        $this->form_validation->set_message('required', 'Mục này không được để trống.');
 
         if ($this->form_validation->run())
         {
@@ -240,23 +242,23 @@ class Phieumuonsach extends MY_Controller {
                 'tinhtrang'        => $tinhtrang
             );
 
-            $book_ids = $this->input->post('book_ids[]');
+            $sach_duoc_chon = $this->input->post('sach_duoc_chon[]');
             $ma_thanhvien = set_value('ma_thanhvien');
 
             $remove_ids = array();
             $insert_ids = array();
-            if ($this->data['book_ids'])
+            if ($this->data['sach_duoc_chon'])
             {
-                foreach($this->data['book_ids'] as $a_id)
+                foreach($this->data['sach_duoc_chon'] as $a_id)
                 {
-                    if (!in_array($a_id, $book_ids))
+                    if (!in_array($a_id, $sach_duoc_chon))
                     {
                         $remove_ids[] = $a_id;
                     }
                 }
-                foreach($book_ids as $b_id)
+                foreach($sach_duoc_chon as $b_id)
                 {
-                    if (!in_array($b_id, $this->data['book_ids']))
+                    if (!in_array($b_id, $this->data['sach_duoc_chon']))
                     {
                         $insert_ids[] = $b_id;
                     }
@@ -264,8 +266,8 @@ class Phieumuonsach extends MY_Controller {
             }
             else
             {
-                $this->data['book_ids'] = $book_ids;
-                $insert_ids = $book_ids;
+                $this->data['sach_duoc_chon'] = $sach_duoc_chon;
+                $insert_ids = $sach_duoc_chon;
             }
             
 
@@ -293,7 +295,7 @@ class Phieumuonsach extends MY_Controller {
                 $result = $this->cms_model->them_pms($borrows_data);
                 if ($insert_ids && $result)
                 {
-                    $this->cms_model->them_sach_pms($result, $insert_ids, $user_id);
+                    $this->cms_model->them_sach_pms($result, $insert_ids, $ma_thanhvien);
                 }
             }
 
@@ -316,11 +318,15 @@ class Phieumuonsach extends MY_Controller {
         {
             if ($this->input->server('REQUEST_METHOD') == 'POST')
             {
-                $this->data['book_ids'] = $this->input->post('book_ids[]');
+                $this->data['sach_duoc_chon'] = $this->input->post('sach_duoc_chon[]');
+                if (!$this->data['sach_duoc_chon'])
+                {
+                    $this->data['sach_duoc_chon'] = array();
+                }
             }
             $this->data['attributes'] = $this->_attribute_form();
             $this->load->view('cms/parts/header', $this->data);
-            $this->load->view('cms/borrows/form', $this->data);
+            $this->load->view('cms/phieumuonsach/chitiet_pms', $this->data);
             $this->load->view('cms/parts/footer', $this->data);
         }
     }
@@ -333,45 +339,78 @@ class Phieumuonsach extends MY_Controller {
 
         );
 
-        $books = $this->cms_model->get_all_books(array('del_flg' => 0));
-        $borrows_books = array(
-            'name'  => 'book_ids[]',
-            'id'    => 'book_ids',
+        // $books = $this->cms_model->get_all_books(array('del_flg' => 0));
+        // $borrows_books = array(
+        //     'name'  => 'sach_duoc_chon[]',
+        //     'id'    => 'sach_duoc_chon',
+        //     'class' => 'form-control',
+        //     'options'   => array()
+        // );
+        // foreach($books as $book)
+        // {
+        //     $borrows_books['options'][$book['id']] = $book['name'];
+        // }
+        // if ($this->data['sach_duoc_chon'])
+        // {
+        //     $borrows_books['selected'] = $this->data['sach_duoc_chon'];
+        // }
+        // else
+        // {
+        //     $borrows_books['selected'] = '';
+        // }
+
+        $cuonsach = array(
+            'name'  => 'sach_duoc_chon[]',
+            'id'    => 'sach_duoc_chon',
             'class' => 'form-control',
+            'selected'  => array(),
             'options'   => array()
         );
-        foreach($books as $book)
+        if (!empty($this->data['sach_duoc_chon']))
         {
-            $borrows_books['options'][$book['id']] = $book['name'];
-        }
-        if ($this->data['book_ids'])
-        {
-            $borrows_books['selected'] = $this->data['book_ids'];
+            $cuonsach['selected'] = $this->data['sach_duoc_chon'];
+            $list_cuon_sach = $this->cms_model->lay_cuon_sach_chua_duoc_muon($this->data['sach_duoc_chon']);
+            if ($list_cuon_sach)
+            {
+                foreach($list_cuon_sach as $lcs)
+                {
+                    $cs = $this->cms_model->lat_dau_sach_va_tua_sach_theo_cuon_sach($lcs['id']);
+                    $cuonsach['options'][$lcs['id']] = $cs['ten_sach'] . " (" . $cs['ngon_ngu'] . ")" . " MS: " . $lcs['id'];
+                }
+            }
         }
         else
         {
-            $borrows_books['selected'] = '';
+            $list_cuon_sach = $this->cms_model->lay_cuon_sach_chua_duoc_muon();
+            if ($list_cuon_sach)
+            {
+                foreach($list_cuon_sach as $lcs)
+                {
+                    $cs = $this->cms_model->lat_dau_sach_va_tua_sach_theo_cuon_sach($lcs['id']);
+                    $cuonsach['options'][$lcs['id']] = $cs['ten_sach'] . " (" . $cs['ngon_ngu'] . ")" . " MS: " . $lcs['id'];
+                }
+            }
         }
 
         
 
         $users = $this->cms_model->lay_tat_ca_thanh_vien(array('tinhtrang !=' => 3));
-        $user_id = array(
-            'name'  => 'user_id',
-            'id'    => 'user_id',
+        $ma_thanhvien = array(
+            'name'  => 'ma_thanhvien',
+            'id'    => 'ma_thanhvien',
             'class' => 'form-control',
             'options'   => array('' => 'Chọn người mượn')
         );
         $selected_user_id = NULL;
         foreach($users as $user)
         {
-            $user_id['options'][$user['id']] = $user['hoten'] . ' (ID: ' . $user['id']. ')';
-            if ($user['id'] == set_value('user_id', $this->data['phieumuonsach']['ma_thanhvien']))
+            $ma_thanhvien['options'][$user['id']] = $user['hoten'] . ' (ID: ' . $user['id']. ')';
+            if ($user['id'] == set_value('ma_thanhvien', $this->data['phieumuonsach']['ma_thanhvien']))
             {
                 $selected_user_id = $user['id'];
             }
         }
-        $user_id['selected'] = $selected_user_id;
+        $ma_thanhvien['selected'] = $selected_user_id;
 
         
         if ($this->data['phieumuonsach']['ngaynhansach'] != '' && $this->data['phieumuonsach']['ngaynhansach'] != '0000-00-00 00:00:00')
@@ -474,8 +513,8 @@ class Phieumuonsach extends MY_Controller {
 
         $attributes = array(
             'hidden'    => $hidden,
-            'borrows_books'      => $borrows_books,
-            'user_id'       => $user_id,
+            'cuonsach'      => $cuonsach,
+            'ma_thanhvien'       => $ma_thanhvien,
             'ngaynhansach'    => $ngaynhansach,
             'ngayphaitra'   => $ngayphaitra,
             'ngaydemtra'  => $ngaydemtra,

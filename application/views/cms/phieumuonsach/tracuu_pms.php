@@ -122,24 +122,24 @@
                             <tr>
                                 <td><?=$pms['id']?></td>
 
-                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['create_date'])->format('d-m-Y')?></td>
+                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['ngaytao'])->format('d-m-Y')?></td>
 
                                 <td>
-                                    <a href="/cms/user/form/<?=$pms['user_id']?>">
-                                        <?=$pms['user_name'].' (ID: '.$pms['user_id'].')'?>
+                                    <a href="/cms/user/form/<?=$pms['ma_thanhvien']?>">
+                                        <?=$pms['ten_thanhvien'].' (ID: '.$pms['ma_thanhvien'].')'?>
                                     </a>
                                 </td>
 
-                                <?php if ($pms['taken_date'] != '0000-00-00 00:00:00'):?>
-                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['taken_date'])->format('d-m-Y')?></td>
+                                <?php if ($pms['ngaynhansach'] != '0000-00-00 00:00:00'):?>
+                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['ngaynhansach'])->format('d-m-Y')?></td>
                                 <?php else:?>
                                 <td></td>
                                 <?php endif?>
 
-                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['return_date'])->format('d-m-Y')?></td>
+                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['ngayphaitra'])->format('d-m-Y')?></td>
 
-                                <?php if ($pms['brought_date'] != '0000-00-00 00:00:00'):?>
-                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['brought_date'])->format('d-m-Y')?></td>
+                                <?php if ($pms['ngaydemtra'] != '0000-00-00 00:00:00'):?>
+                                <td><?=DateTime::createFromFormat('Y-m-d H:i:s', $pms['ngaydemtra'])->format('d-m-Y')?></td>
                                 <?php else:?>
                                 <td></td>
                                 <?php endif?>

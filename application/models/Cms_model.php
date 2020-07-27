@@ -167,7 +167,7 @@ class Cms_model extends CI_model {
         return $query->result_array();
     }
 
-    public function get_cuon_sach($where = array(), $order_by = '', $limit = NULL, $offset = 0, $count = FALSE)
+    public function lay_tat_ca_cuon_sach($where = array(), $order_by = '', $limit = NULL, $offset = 0, $count = FALSE)
     {
         $this->db->select('*');
         $this->db->from('cuonsach');
@@ -323,8 +323,8 @@ class Cms_model extends CI_model {
         $this->db->distinct();
         $this->db->select('phieumuonsach.*, thanhvien.hoten as ten_thanhvien, thanhvien.id as ma_thanhvien');
         $this->db->from('phieumuonsach');
-        $this->db->join('pms_thanhvien', 'pms_thanhvien.mapms = phieumuonsach.id', 'left');
-        $this->db->join('thanhvien', 'pms_thanhvien.mathanhvien = thanhvien.id', 'left');
+        $this->db->join('chitiet_pms', 'chitiet_pms.mapms = phieumuonsach.id', 'left');
+        $this->db->join('thanhvien', 'chitiet_pms.mathanhvien = thanhvien.id', 'left');
         $this->db->where($where);
 
         if ($having)
@@ -364,9 +364,9 @@ class Cms_model extends CI_model {
 
     public function lay_chitiet_pms($where = array())
     {
-        $this->db->select('pms_thanhvien.*');
-        $this->db->from('pms_thanhvien');
-        $this->db->join('phieumuonsach', 'pms_thanhvien.mapms = phieumuonsach.id', 'left');
+        $this->db->select('chitiet_pms.*');
+        $this->db->from('chitiet_pms');
+        $this->db->join('phieumuonsach', 'chitiet_pms.mapms = phieumuonsach.id', 'left');
 
         $this->db->where($where);
 
@@ -437,7 +437,7 @@ class Cms_model extends CI_model {
                 'mathanhvien'   => $user_id
             );
         }
-        $this->db->insert_batch('pms_thanhvien', $data);
+        $this->db->insert_batch('chitiet_pms', $data);
 
         return $this->db->affected_rows();
     }
@@ -501,7 +501,7 @@ class Cms_model extends CI_model {
     {
         $this->db->where('mapms', $borrows_id);
         $this->db->where_in('macuonsach', $book_ids);
-        $this->db->delete('pms_thanhvien');
+        $this->db->delete('chitiet_pms');
         return $this->db->affected_rows();
     }
 
@@ -534,7 +534,7 @@ class Cms_model extends CI_model {
             'mathanhvien' => $user_id
         );
         $this->db->where('mapms', $borrows_id);
-        $this->db->update('pms_thanhvien', $data);
+        $this->db->update('chitiet_pms', $data);
         
         return $this->db->affected_rows();
     }
@@ -566,6 +566,35 @@ class Cms_model extends CI_model {
         $result = $this->db->get();
 
         return $result->result_array();
+    }
+
+    public function lay_cuon_sach_chua_duoc_muon($sach_duoc_chon = array())
+    {
+        $sql = "select cuonsach.* "
+        . "from cuonsach "
+        . "where cuonsach.id NOT IN(select chitiet_pms.macuonsach from chitiet_pms join phieumuonsach on phieumuonsach.id = chitiet_pms.mapms where phieumuonsach.tinhtrang not in (3,4) ";
+        if (!empty($sach_duoc_chon))
+        {
+            $sql .= " and chitiet_pms.macuonsach NOT IN (" .implode(",",$sach_duoc_chon) . ") )";
+        }
+        else
+        {
+            $sql .= ")";
+        }
+        $result = $this->db->query($sql)->result_array();
+        return $result;
+    }
+
+    public function lat_dau_sach_va_tua_sach_theo_cuon_sach($macuonsach)
+    {
+        $this->db->select("cuonsach.*, dausach.ngonngu as ngon_ngu, tuasach.ten as ten_sach, tuasach.tacgia as tac_gia");
+        $this->db->from('cuonsach');
+        $this->db->join('dausach', 'dausach.id = cuonsach.madausach');
+        $this->db->join('tuasach', 'tuasach.id = dausach.matuasach');
+        $this->db->where(array('cuonsach.id' => $macuonsach));
+        $query = $this->db->get();
+        $result = $query->row_array();
+        return $result;
     }
 }
 

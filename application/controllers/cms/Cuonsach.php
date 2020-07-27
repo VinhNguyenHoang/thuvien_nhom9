@@ -50,8 +50,8 @@ class Cuonsach extends MY_Controller {
         {
             $where["cuonsach.madausach"] = $this->data['ma_dausach'];
         }
-        $this->data['cuonsach'] = $this->cms_model->get_cuon_sach($where, $order_by, $this->limit, $this->data['offset'], FALSE);
-        $this->data['count'] = $this->cms_model->get_cuon_sach($where, $order_by, $this->limit, $this->data['offset'], TRUE);
+        $this->data['cuonsach'] = $this->cms_model->lay_tat_ca_cuon_sach($where, $order_by, $this->limit, $this->data['offset'], FALSE);
+        $this->data['count'] = $this->cms_model->lay_tat_ca_cuon_sach($where, $order_by, $this->limit, $this->data['offset'], TRUE);
 
         // var_dump($this->data['books']);die();
 
