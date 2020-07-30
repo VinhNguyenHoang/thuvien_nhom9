@@ -374,7 +374,7 @@ class Phieumuonsach extends MY_Controller {
             {
                 foreach($list_cuon_sach as $lcs)
                 {
-                    $cs = $this->cms_model->lat_dau_sach_va_tua_sach_theo_cuon_sach($lcs['id']);
+                    $cs = $this->cms_model->lay_dau_sach_va_tua_sach_theo_cuon_sach($lcs['id']);
                     $cuonsach['options'][$lcs['id']] = $cs['ten_sach'] . " (" . $cs['ngon_ngu'] . ")" . " MS: " . $lcs['id'];
                 }
             }
@@ -386,7 +386,7 @@ class Phieumuonsach extends MY_Controller {
             {
                 foreach($list_cuon_sach as $lcs)
                 {
-                    $cs = $this->cms_model->lat_dau_sach_va_tua_sach_theo_cuon_sach($lcs['id']);
+                    $cs = $this->cms_model->lay_dau_sach_va_tua_sach_theo_cuon_sach($lcs['id']);
                     $cuonsach['options'][$lcs['id']] = $cs['ten_sach'] . " (" . $cs['ngon_ngu'] . ")" . " MS: " . $lcs['id'];
                 }
             }

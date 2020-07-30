@@ -110,12 +110,18 @@ CREATE TABLE IF NOT EXISTS `chitiet_pms` (
   KEY `FK3_mathanhvien` (`mathanhvien`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
--- Dumping data for table thuvien.chitiet_pms: 0 rows
+-- Dumping data for table thuvien.chitiet_pms: 2 rows
 DELETE FROM `chitiet_pms`;
 /*!40000 ALTER TABLE `chitiet_pms` DISABLE KEYS */;
 INSERT INTO `chitiet_pms` (`id`, `mapms`, `macuonsach`, `mathanhvien`) VALUES
 	(1, 2, 1, 1),
-	(2, 2, 2, 1);
+	(2, 2, 2, 1),
+	(3, 3, 3, 1),
+	(4, 3, 6, 1),
+	(5, 4, 4, 2),
+	(6, 4, 7, 2),
+	(7, 5, 4, 3),
+	(8, 5, 8, 3);
 /*!40000 ALTER TABLE `chitiet_pms` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.ci_sessions
@@ -127,7 +133,7 @@ CREATE TABLE IF NOT EXISTS `ci_sessions` (
   KEY `ci_sessions_timestamp` (`timestamp`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
--- Dumping data for table thuvien.ci_sessions: 70 rows
+-- Dumping data for table thuvien.ci_sessions: 79 rows
 DELETE FROM `ci_sessions`;
 /*!40000 ALTER TABLE `ci_sessions` DISABLE KEYS */;
 INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
@@ -205,7 +211,19 @@ INSERT INTO `ci_sessions` (`id`, `ip_address`, `timestamp`, `data`) VALUES
 	('2hchaijvo2db6unvm2dsd9a9tpfdavj5', '127.0.0.1', 1595860045, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539353836303034353B61646D696E5F6C6F67696E7C623A313B),
 	('rjpchmr1muhdhmet7kbumv59k30nqgd8', '127.0.0.1', 1595861448, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539353836313434383B61646D696E5F6C6F67696E7C623A313B),
 	('ogb4rd8kvaa0efcc5n5rva2qdh8niv8g', '127.0.0.1', 1595861764, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539353836313736343B61646D696E5F6C6F67696E7C623A313B),
-	('ndt20qffi4jkv1nj0r019t9bda45tml2', '127.0.0.1', 1595862022, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539353836313736343B61646D696E5F6C6F67696E7C623A313B);
+	('ndt20qffi4jkv1nj0r019t9bda45tml2', '127.0.0.1', 1595862022, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539353836313736343B61646D696E5F6C6F67696E7C623A313B),
+	('36nbe18j92bl2dcckqq0r4mlbq4eufl7', '127.0.0.1', 1596114257, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363131343235373B61646D696E5F6C6F67696E7C623A313B),
+	('tt9ai0q4doklmtqjhilkv03kgp2e3hf4', '127.0.0.1', 1596119475, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363131393437353B61646D696E5F6C6F67696E7C623A313B),
+	('o53v8akje5ic4rekn7oa9nfoqltq88n9', '127.0.0.1', 1596121344, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132313334343B61646D696E5F6C6F67696E7C623A313B),
+	('j2pmrd645f83d5p5m6tuaufgormtpujp', '127.0.0.1', 1596121842, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132313834323B61646D696E5F6C6F67696E7C623A313B),
+	('f3o7tasl3j1g5jvh8b7d4idmv7h90dkt', '127.0.0.1', 1596122149, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132323134393B61646D696E5F6C6F67696E7C623A313B),
+	('ofd8dn0i0bu77fsjgordd74n1fprdqf0', '127.0.0.1', 1596122707, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132323730373B61646D696E5F6C6F67696E7C623A313B),
+	('pqo0djj9mqr0c14h0s19702t4sfg6q0d', '127.0.0.1', 1596123301, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132333330313B61646D696E5F6C6F67696E7C623A313B),
+	('5k912qmepnfdnoqasar2ba7ih9ms1h39', '127.0.0.1', 1596125572, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132353537323B61646D696E5F6C6F67696E7C623A313B),
+	('612qvp6rkb4kcbbgrtm4e8b99l9fc2ng', '127.0.0.1', 1596126125, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132363132353B61646D696E5F6C6F67696E7C623A313B),
+	('n76tfj7p5i2dvdqnqnfub7rl8h0hgtfq', '127.0.0.1', 1596126673, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132363637333B61646D696E5F6C6F67696E7C623A313B),
+	('3jp85rg3vpdff6i8llhj7gqib4js1cou', '127.0.0.1', 1596126981, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132363938313B61646D696E5F6C6F67696E7C623A313B),
+	('8d49mcfdeaak9h6582k9k2jpv8afrf9p', '127.0.0.1', 1596127228, _binary 0x5F5F63695F6C6173745F726567656E65726174657C693A313539363132363938313B61646D696E5F6C6F67696E7C623A313B);
 /*!40000 ALTER TABLE `ci_sessions` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.cuonsach
@@ -226,7 +244,10 @@ INSERT INTO `cuonsach` (`id`, `madausach`, `namxuatban`, `trangthai`) VALUES
 	(2, 2, '2001', 1),
 	(3, 2, '2002', 1),
 	(4, 3, '2001', 1),
-	(5, 3, '2001', 1);
+	(5, 3, '2001', 1),
+	(6, 5, '2000', 1),
+	(7, 5, '2000', 1),
+	(8, 1, '2002', 1);
 /*!40000 ALTER TABLE `cuonsach` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.dausach
@@ -246,7 +267,8 @@ INSERT INTO `dausach` (`id`, `matuasach`, `ngonngu`, `trangthai`) VALUES
 	(1, 1, 'Tiếng việt', 1),
 	(2, 1, 'Tiếng Anh', 1),
 	(3, 2, 'Tiếng Việt', 1),
-	(4, 2, 'Tiếng Anh', 1);
+	(4, 2, 'Tiếng Anh', 1),
+	(5, 3, 'Tiếng Việt', 1);
 /*!40000 ALTER TABLE `dausach` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.phieumuonsach
@@ -264,7 +286,10 @@ CREATE TABLE IF NOT EXISTS `phieumuonsach` (
 DELETE FROM `phieumuonsach`;
 /*!40000 ALTER TABLE `phieumuonsach` DISABLE KEYS */;
 INSERT INTO `phieumuonsach` (`id`, `ngaytao`, `ngayphaitra`, `ngaynhansach`, `ngaydemtra`, `tinhtrang`) VALUES
-	(2, '2020-07-27 15:00:13', '2020-07-30 00:00:00', '2020-07-27 00:00:00', '2020-07-28 00:00:00', 3);
+	(3, '2020-07-30 15:17:49', '2020-07-31 00:00:00', '2020-07-30 00:00:00', '2020-07-31 00:00:00', 3),
+	(2, '2020-07-27 15:00:13', '2020-07-30 00:00:00', '2020-07-27 00:00:00', '2020-07-28 00:00:00', 3),
+	(4, '2020-07-30 15:17:34', '2020-08-05 00:00:00', '2020-07-30 00:00:00', '2020-07-31 00:00:00', 3),
+	(5, '2020-07-30 15:19:47', '2020-08-12 00:00:00', '2020-07-30 00:00:00', '0000-00-00 00:00:00', 1);
 /*!40000 ALTER TABLE `phieumuonsach` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.quantrivien
@@ -296,10 +321,10 @@ CREATE TABLE IF NOT EXISTS `search_keywords` (
 DELETE FROM `search_keywords`;
 /*!40000 ALTER TABLE `search_keywords` DISABLE KEYS */;
 INSERT INTO `search_keywords` (`id`, `keyword`, `count`, `create_date`) VALUES
-	(2, 'sach giao khoa lop 1', 3, '2020-07-15 08:17:37'),
-	(3, 'toán cao cấp a1', 10, '2020-07-15 08:18:33'),
-	(4, 'toán a1', 8, '2020-07-15 08:18:52'),
-	(5, 'văn mẫu cấp 2', 1, '2020-07-15 08:19:10');
+	(2, 'sach giao khoa lop 1', 3, '2020-07-28 08:17:37'),
+	(3, 'toán cao cấp a1', 10, '2020-07-25 08:18:33'),
+	(4, 'toán a1', 8, '2020-07-26 08:18:52'),
+	(5, 'văn mẫu cấp 2', 1, '2020-07-28 08:19:10');
 /*!40000 ALTER TABLE `search_keywords` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.thanhvien
@@ -319,7 +344,9 @@ CREATE TABLE IF NOT EXISTS `thanhvien` (
 DELETE FROM `thanhvien`;
 /*!40000 ALTER TABLE `thanhvien` DISABLE KEYS */;
 INSERT INTO `thanhvien` (`id`, `hoten`, `tendangnhap`, `matkhau`, `ngaysinh`, `ngaygianhap`, `tinhtrang`, `phamloi`) VALUES
-	(1, 'nguyễn hoàng vinh', 'vinhnh', '12345678', '1990-01-31 00:00:00', '2020-07-26 12:06:27', 1, 0);
+	(1, 'nguyễn hoàng vinh', 'vinhnh', '12345678', '1990-01-31 00:00:00', '2020-07-26 12:06:27', 1, 0),
+	(2, 'Nguyễn Văn A', 'anguyenvan', '12345678', '1998-02-12 00:00:00', '2020-07-30 03:16:24', 1, 0),
+	(3, 'Lê Thúy', 'thuyle', '12345678', '2000-09-09 00:00:00', '2020-07-30 03:18:18', 1, 0);
 /*!40000 ALTER TABLE `thanhvien` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.tuasach
@@ -335,7 +362,8 @@ DELETE FROM `tuasach`;
 /*!40000 ALTER TABLE `tuasach` DISABLE KEYS */;
 INSERT INTO `tuasach` (`id`, `ten`, `tacgia`) VALUES
 	(1, 'Harry Potter and the Philosophers Stone', 'J.K Rowling'),
-	(2, 'Harry Potter and the chamber of secrets', 'J.K Rowling');
+	(2, 'Harry Potter and the chamber of secrets', 'J.K Rowling'),
+	(3, 'Toán cao cấp A1', 'NBX Trẻ');
 /*!40000 ALTER TABLE `tuasach` ENABLE KEYS */;
 
 -- Dumping structure for table thuvien.user

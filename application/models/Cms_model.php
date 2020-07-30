@@ -568,6 +568,35 @@ class Cms_model extends CI_model {
         return $result->result_array();
     }
 
+    public function lay_sach_duoc_muon_gan_day($where = array())
+    {
+        $this->db->select("macuonsach, count(macuonsach) as lan_muon");
+        $this->db->from("chitiet_pms");
+        $this->db->group_by("macuonsach");
+        $this->db->order_by("lan_muon DESC");
+        $this->db->limit(5, 0);
+
+        $result = $this->db->get();
+
+        $cuonsach = $result->result_array();
+
+        $rs = array();
+        foreach($cuonsach as $cs)
+        {
+            $rs[] = array(
+                'chitiet' => $this->lay_dau_sach_va_tua_sach_theo_cuon_sach($cs['macuonsach']),
+                'dem'   => $cs['lan_muon']
+            );
+        }
+
+        if ($rs)
+        {
+            return $rs;
+        }
+
+        return NULL;
+    }
+
     public function lay_cuon_sach_chua_duoc_muon($sach_duoc_chon = array())
     {
         $sql = "select cuonsach.* "
@@ -585,7 +614,7 @@ class Cms_model extends CI_model {
         return $result;
     }
 
-    public function lat_dau_sach_va_tua_sach_theo_cuon_sach($macuonsach)
+    public function lay_dau_sach_va_tua_sach_theo_cuon_sach($macuonsach)
     {
         $this->db->select("cuonsach.*, dausach.ngonngu as ngon_ngu, tuasach.ten as ten_sach, tuasach.tacgia as tac_gia");
         $this->db->from('cuonsach');
@@ -595,6 +624,19 @@ class Cms_model extends CI_model {
         $query = $this->db->get();
         $result = $query->row_array();
         return $result;
+    }
+
+    public function lay_tu_khoa_tim_kiem($where = array())
+    {
+        $this->db->select('*');
+        $this->db->from('search_keywords');
+        $this->db->where($where);
+        $this->db->order_by('count DESC');
+        $this->db->limit(5, 0);
+
+        $result = $this->db->get();
+
+        return $result->result_array();
     }
 }
 
